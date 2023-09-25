@@ -30,7 +30,21 @@ class Search(ABC):
 
 import matplotlib.pyplot as plt
 
+class LinearSearch:
+    def __init__(self, data):
+        self.data = data
 
+    def _search(self, x):
+        for i in range(len(self.data)):
+            if self.data[i] == x:
+                return i
+        return -1
+
+    def _time(self, x):
+        import time
+        start_time = time.time()
+        self._search(x)
+        return time.time() - start_time
 
 class BinarySearch:
     def __init__(self, data):
@@ -56,6 +70,9 @@ class BinarySearch:
 
 if __name__ == '__main__':
     bin_t = []  # List to store the different amounts of time it took to do BinarySearch search (for different sizes)
+
+    lin_t = [] 
+    
     sizes = [10, 100, 500, 1000, 5000, 7500, 10000, 15000]  # Sizes for lists, up to 5000
 
     while True:  # Make sure the user gives the right input
@@ -69,7 +86,10 @@ if __name__ == '__main__':
         # Creating random lists of the pre-defined sizes
         random_list = [random.randint(-1000, 1000) for _ in range(sizes[i])]
         
-
+        lin = LinearSearch(random_list)
+        search_lin = lin._search(x)
+        time_lin = lin._time(x)
+        lin_t.append(time_lin)
 
         bin = BinarySearch(sorted(random_list))
         search_bin = bin._search(x)
@@ -77,6 +97,7 @@ if __name__ == '__main__':
         bin_t.append(time_bin)
 
     plt.plot(sizes, bin_t, color='blue', label='BinarySearch timings')
+    plt.plot(sizes, lin_t, color='red', label='LinearSearch search timings')
     plt.xlabel('Sizes')
     plt.ylabel('Time')
     plt.title('Scatter Plot of Time taken to search vs. Size of list')
