@@ -25,3 +25,4 @@ def bubble_sort(arr):
 
 bubble_sort(list)
 print(list)
+print("1")
